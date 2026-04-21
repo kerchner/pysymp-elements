@@ -7,7 +7,7 @@ name = "pysymp-elements"
 version = "0.1.0"
 description = "Python library for interacting with the Symplectic Elements API"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Daniel Kerchner", email = "kerchner@gwu.edu"},
 ]
 dependencies = [
     "requests",
@@ -19,8 +19,8 @@ readme = "README.md"
 license = {text = "MIT"}
 
 [project.urls]
-Homepage = "https://github.com/yourusername/pysymp-elements"
-Repository = "https://github.com/yourusername/pysymp-elements.git"
+Homepage = "https://github.com/kerchner/pysymp-elements"
+Repository = "https://github.com/kerchner/pysymp-elements.git"
 
 [tool.setuptools.packages.find]
 where = ["src"]
