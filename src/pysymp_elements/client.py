@@ -10,6 +10,8 @@ from .models import APIResponse, APIObject, Relationship
 class APIClient:
     """Client for interacting with the Symplectic Elements API."""
     
+    ITEMS_PER_PAGE = 25  # Number of results per page from the API
+    
     def __init__(self, base_url: str, username: str, password: str, version: str = 'v6.13', timeout: int = 30):
         """
         Initialize the API client.
@@ -70,14 +72,14 @@ class APIClient:
         response = self._get(endpoint, params)
         return response.result
     
-    def get_objects(self, category: str, detail: str = 'ref', max_pages: Optional[int] = None, **filters) -> List[APIObject]:
+    def get_objects(self, category: str, detail: str = 'ref', limit: Optional[int] = None, **filters) -> List[APIObject]:
         """
         Get a list of objects by category, handling pagination automatically.
         
         Args:
             category: Object category
             detail: Detail level
-            max_pages: Maximum number of pages to fetch (None for all)
+            limit: Maximum number of results to fetch (None for all)
             **filters: Additional query parameters
         
         Returns:
@@ -88,14 +90,14 @@ class APIClient:
         params.update(filters)
         
         all_results = []
-        page_count = 0
         
         while True:
             response = self._get(endpoint, params)
             all_results.extend(response.result_list)
-            page_count += 1
             
-            if max_pages is not None and page_count >= max_pages:
+            # Stop if we've reached the limit
+            if limit is not None and len(all_results) >= limit:
+                all_results = all_results[:limit]
                 break
             
             # Check for next page
@@ -174,20 +176,20 @@ class APIClient:
     
     def get_publications(self,
                          detail: str = 'ref', # other values are 'full' and 'single-record'
-                         max_pages: Optional[int] = None,
+                         limit: Optional[int] = None,
                          # types: str = 'book,chapter,journal-article', # See /publication/types endpoint for valid values
                          **filters) -> List[APIObject]:
         """Get publications."""
-        return self.get_objects('publications', detail, max_pages, **filters)
+        return self.get_objects('publications', detail, limit, **filters)
     
-    def get_users(self, detail: str = 'ref', max_pages: Optional[int] = None, **filters) -> List[APIObject]:
+    def get_users(self, detail: str = 'ref', limit: Optional[int] = None, **filters) -> List[APIObject]:
         """Get users."""
-        return self.get_objects('users', detail, max_pages, **filters)
+        return self.get_objects('users', detail, limit, **filters)
     
-    def get_groups(self, detail: str = 'ref', max_pages: Optional[int] = None, **filters) -> List[APIObject]:
+    def get_groups(self, detail: str = 'ref', limit: Optional[int] = None, **filters) -> List[APIObject]:
         """Get groups."""
-        return self.get_objects('groups', detail, max_pages, **filters)
+        return self.get_objects('groups', detail, limit, **filters)
     
-    def get_journals(self, detail: str = 'ref', max_pages: Optional[int] = None, **filters) -> List[APIObject]:
+    def get_journals(self, detail: str = 'ref', limit: Optional[int] = None, **filters) -> List[APIObject]:
         """Get journals."""
-        return self.get_objects('journals', detail, max_pages, **filters)
+        return self.get_objects('journals', detail, limit, **filters)
