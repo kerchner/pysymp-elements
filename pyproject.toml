@@ -19,8 +19,8 @@ readme = "README.md"
 license = {text = "MIT"}
 
 [project.urls]
-Homepage = "https://github.com/kerchner/pysymp-elements"
-Repository = "https://github.com/kerchner/pysymp-elements.git"
+Homepage = "https://github.com/gwu-libraries/pysymp-elements"
+Repository = "https://github.com/gwu-libraries/pysymp-elements.git"
 
 [tool.setuptools.packages.find]
 where = ["src"]
