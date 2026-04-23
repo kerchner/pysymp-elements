@@ -146,17 +146,27 @@ def parse_publication(elem) -> Publication:
     pub.records = records
     
     fields = []
-    open_access_status = None
+    publication_fields_elem = elem.find('api:fields', NS)
+    if publication_fields_elem is not None:
+        for field in publication_fields_elem.findall('api:field', NS):
+            fields.append(parse_field(field))
+
     for record in records:
         fields.extend(record.native)
         fields.extend(record.fields)
-    # Find open_access_status in the aggregated fields
-    # TODO: This isn't working - it's accessible via the fields_dict for now
+
+    authors = []
+    for field in fields:
+        if field.name == 'authors' and field.people:
+            authors.extend(field.people)
+
+    open_access_status = None
     for field in fields:
         if field.name == 'open-access-status':
             open_access_status = field.text
             break
     pub.fields = fields
+    pub.authors = authors
     pub.open_access_status = open_access_status
 
     fields_tuples_list = [(f.name, f.text) for f in fields]

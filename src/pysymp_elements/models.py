@@ -233,6 +233,7 @@ class Publication:
     open_access_status: Optional[str] = None
     records: List[Record] = field(default_factory=list)
     fields: List[Field] = field(default_factory=list)
+    authors: List[Person] = field(default_factory=list)
     fields_dict: Dict[str, str] = field(default_factory=dict)
     all_labels: List[Keyword] = field(default_factory=list)
     journal: Optional['Journal'] = None
