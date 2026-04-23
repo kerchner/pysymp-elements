@@ -56,7 +56,7 @@ class APIClient:
         
         return parse_response(response.text)
     
-    def get_object(self, category: str, id: int, detail: str = 'full') -> APIObject:
+    def get_object(self, category: str, id: int, detail: str = 'full') -> Optional[APIObject]:
         """
         Get a single object by category and ID.
         
@@ -123,7 +123,7 @@ class APIClient:
         
         return all_results
     
-    def get_relationship(self, id: int, detail: str = 'full') -> Relationship:
+    def get_relationship(self, id: int, detail: str = 'full') -> Optional[Relationship]:
         """
         Get a relationship by ID.
         
@@ -172,7 +172,6 @@ class APIClient:
         #return response.result_list
         return self.get_objects(endpoint, detail, limit, **filters)
 
-     
     def import_relationship(self, from_object: str, to_object: str, type_name: str, validate: bool = False) -> APIResponse:
         """
         Import (create or update) a relationship.
