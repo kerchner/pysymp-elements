@@ -79,6 +79,12 @@ class Date:
     month: Optional[int] = None
     day: Optional[int] = None
 
+    def to_ymd_string(self) -> str:
+        if self.month is None:
+            return f"{self.year}"
+        if self.day is None:
+            return f"{self.year}-{self.month:02d}"
+        return f"{self.year}-{self.month:02d}-{self.day:02d}"
 
 @dataclass_json
 @dataclass
@@ -231,6 +237,8 @@ class Publication:
     # Publication specific
     reporting_date_1: Optional[str] = None
     open_access_status: Optional[str] = None
+    online_publication_date: Optional['Date'] = None
+    publication_date: Optional['Date'] = None
     records: List[Record] = field(default_factory=list)
     fields: List[Field] = field(default_factory=list)
     authors: List[Person] = field(default_factory=list)

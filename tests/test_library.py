@@ -49,6 +49,13 @@ class TestParsers(unittest.TestCase):
                 <api:field name="open-access-status" display-name="Open access status">
                     <api:text>Green OA</api:text>
                 </api:field>
+                <api:field name="publication-date" type="date" display-name="Publication date">
+                    <api:date>
+                        <api:year>2023</api:year>
+                        <api:month>5</api:month>
+                        <api:day>15</api:day>
+                    </api:date>
+                </api:field>
             </api:fields>
         </api:record>
     </api:records>
@@ -61,10 +68,14 @@ class TestParsers(unittest.TestCase):
         self.assertEqual(obj.id, 123)
         self.assertEqual(len(obj.records), 1)
         self.assertEqual(obj.records[0].source_name, 'Web of Science')
-        self.assertEqual(len(obj.records[0].fields), 2)
+        self.assertEqual(len(obj.records[0].fields), 3)
         self.assertEqual(obj.records[0].fields[0].name, 'title')
         self.assertEqual(obj.records[0].fields[0].text, 'Sample Publication Title')
         self.assertEqual(obj.open_access_status, 'Green OA')
+        self.assertIsNotNone(obj.publication_date)
+        self.assertEqual(obj.publication_date.year, 2023)
+        self.assertEqual(obj.publication_date.month, 5)
+        self.assertEqual(obj.publication_date.day, 15)
 
 
 if __name__ == '__main__':

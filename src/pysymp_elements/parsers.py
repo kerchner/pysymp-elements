@@ -165,9 +165,24 @@ def parse_publication(elem) -> Publication:
         if field.name == 'open-access-status':
             open_access_status = field.text
             break
+    
+    online_publication_date = None
+    for field in fields:
+        if field.name == 'online-publication-date' and field.date is not None:
+            online_publication_date = field.date
+            break
+    
+    publication_date = None
+    for field in fields:
+        if field.name == 'publication-date' and field.date is not None:
+            publication_date = field.date
+            break
+    
     pub.fields = fields
     pub.authors = authors
     pub.open_access_status = open_access_status
+    pub.online_publication_date = online_publication_date
+    pub.publication_date = publication_date
 
     fields_tuples_list = [(f.name, f.text) for f in fields]
     pub.fields_dict = dict(fields_tuples_list)
